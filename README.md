@@ -13,6 +13,8 @@ features:
 - remote suggestions are being added to the search index
 - no subsequent requests i.e. if we have already asked suggestions for AB there will be no requests for AB+X for any X
 
+**setting dupDetector in bloodhound countructor is a must!!**
+
 development branch: [iranai]
 ============================
 
