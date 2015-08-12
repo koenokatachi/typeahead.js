@@ -1,7 +1,7 @@
 /*!
  * typeahead.js 0.10.5
  * https://github.com/twitter/typeahead.js
- * Copyright 2013-2014 Twitter, Inc. and other contributors; Licensed MIT
+ * Copyright 2013-2015 Twitter, Inc. and other contributors; Licensed MIT
  */
 
 (function($) {
@@ -691,10 +691,16 @@
                         isDuplicate = _.some(matchesWithBackfill, function(match) {
                             return that.dupDetector(remoteMatch, match);
                         });
-                        !isDuplicate && matchesWithBackfill.push(remoteMatch);
-                        return matchesWithBackfill.length < that.limit;
+                        if (!isDuplicate) {
+                            matchesWithBackfill.push(remoteMatch);
+                            that.add(remoteMatch);
+                        }
                     });
-                    cb && cb(that.sorter(matchesWithBackfill));
+                    if (cb) {
+                        matchesWithBackfill = that.sorter(matchesWithBackfill);
+                        if (matchesWithBackfill.length > that.limit) matchesWithBackfill = matchesWithBackfill.slice(0, that.limit);
+                        cb(matchesWithBackfill);
+                    }
                 }
             },
             clear: function clear() {
