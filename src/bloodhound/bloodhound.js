@@ -193,13 +193,22 @@
             return that.dupDetector(remoteMatch, match);
           });
 
-          !isDuplicate && matchesWithBackfill.push(remoteMatch);
-
-          // if we're at the limit, we no longer need to process
-          // the remote results and can break out of the each loop
-          return matchesWithBackfill.length < that.limit;
+          if (!isDuplicate){
+            matchesWithBackfill.push(remoteMatch);
+            // add to the search index
+            that.add(remoteMatch);
+          }
         });
-        cb && cb(that.sorter(matchesWithBackfill));
+
+        // shrink down the suggestions list to that.limit before running the cb() over it
+        if (cb){
+          matchesWithBackfill = that.sorter(matchesWithBackfill);
+
+          if (matchesWithBackfill.length > that.limit)
+              matchesWithBackfill = matchesWithBackfill.slice(0,that.limit);
+
+          cb(matchesWithBackfill);
+        }
       }
     },
 
