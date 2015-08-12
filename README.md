@@ -1,6 +1,22 @@
 [![build status](https://secure.travis-ci.org/twitter/typeahead.js.png?branch=master)](http://travis-ci.org/twitter/typeahead.js)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
+\>.< modified typeahead.js v0.10.5 >.<
+======================================================
+
+assumptions:
+- remote suggestions matching mode is /^%QUERY/i
+- remote suggestions urls end with %QUERY
+- remote suggestions return whole sets for any %QUERY i.e. suggestion set for %QUERY+X is a subset of the suggestion set for %QUERY for any X
+
+features:
+- remote suggestions are being added to the search index
+- no subsequent requests i.e. if we have already asked suggestions for AB there will be no requests for AB+X for any X
+
+development branch: [iranai]
+============================
+
+[iranai]: https://github.com/koenokatachi/typeahead.js/tree/iranai
 
 [typeahead.js][gh-page]
 =======================
