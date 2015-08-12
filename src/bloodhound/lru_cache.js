@@ -53,6 +53,14 @@ var LruCache = (function() {
         this.list.moveToFront(node);
         return node.val;
       }
+
+      // return empty set on subsequent requests of already done ones
+      for (var k in this.hash){
+        if (key.length > k.length && key.substr(0,k.length) === k){
+          this.list.moveToFront(this.hash[k]);
+          return [];
+        }
+      }
     },
 
     reset: function reset() {
