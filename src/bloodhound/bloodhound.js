@@ -90,7 +90,8 @@
 
       if (!this.transport) { return; }
 
-      query = query || '';
+      // unify it so "abc" wont trigger another request if "AB" has been requested previously
+      query = query.toLowerCase() || '';
       uriEncodedQuery = encodeURIComponent(query);
 
       url = this.remote.replace ?

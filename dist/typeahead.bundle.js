@@ -638,7 +638,7 @@
                 if (!this.transport) {
                     return;
                 }
-                query = query || "";
+                query = query.toLowerCase() || "";
                 uriEncodedQuery = encodeURIComponent(query);
                 url = this.remote.replace ? this.remote.replace(this.remote.url, query) : this.remote.url.replace(this.remote.wildcard, uriEncodedQuery);
                 return this.transport.get(url, this.remote.ajax, handleRemoteResponse);
