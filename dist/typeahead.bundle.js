@@ -685,12 +685,12 @@
             get: function get(query, cb) {
                 var that = this, matches = [], cacheHit = false;
                 matches = this.index.get(query);
-                matches = this.sorter(matches).slice(0, this.limit);
                 matches.length < this.limit ? cacheHit = this._getFromRemote(query, returnRemoteMatches) : this._cancelLastRemoteRequest();
                 if (!cacheHit) {
-                    (matches.length > 0 || !this.transport) && cb && cb(matches);
+                    (matches.length > 0 || !this.transport) && cb && cb(this.sorter(matches).slice(0, this.limit));
                 }
                 function returnRemoteMatches(remoteMatches) {
+                    matches = that.index.get(query);
                     var matchesWithBackfill = matches.slice(0);
                     _.each(remoteMatches, function(remoteMatch) {
                         var isDuplicate;
@@ -702,11 +702,7 @@
                             that.add(remoteMatch);
                         }
                     });
-                    if (cb) {
-                        matchesWithBackfill = that.sorter(matchesWithBackfill);
-                        if (matchesWithBackfill.length > that.limit) matchesWithBackfill = matchesWithBackfill.slice(0, that.limit);
-                        cb(matchesWithBackfill);
-                    }
+                    cb && cb(that.sorter(matchesWithBackfill).slice(0, that.limit));
                 }
             },
             clear: function clear() {
